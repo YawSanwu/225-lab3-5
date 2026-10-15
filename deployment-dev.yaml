@@ -31,7 +31,7 @@ spec:
         pathType: ImplementationSpecific
         backend: 
           service:
-            name: dev-service
+            name: sanwuya-lab3-5-dev-service
             port:
               number: 80
 ---
