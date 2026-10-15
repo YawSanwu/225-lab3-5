@@ -40,14 +40,12 @@ pipeline {
         }
 
         stage('Verify Website Files') {
-    steps {
-        sh '''
-            docker run --rm --entrypoint sh \
-              ${DOCKER_IMAGE}:${IMAGE_TAG} \
-              -c 'ls -la /usr/share/nginx/html/lab3-5/ && nginx -T 2>&1 | grep -A 20 "server {"'
-        '''
-    }
-}
+            steps {
+                sh '''
+                    docker run --rm --entrypoint sh \
+                      ${DOCKER_IMAGE}:${IMAGE_TAG} \
+                      -c 'ls -la /usr/share/nginx/html/lab3-5/ && nginx -T 2>&1 | grep -A 20 "server {"'
+                '''
             }
         }
 
@@ -76,6 +74,9 @@ pipeline {
         }
 
         stage('Deploy to Prod Environment') {
+            when {
+                expression { false }
+            }
             steps {
                 sh """
                     sed -i 's|${DOCKER_IMAGE}:latest|${DOCKER_IMAGE}:${IMAGE_TAG}|' deployment-prod.yaml
