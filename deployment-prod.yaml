@@ -41,7 +41,7 @@ metadata:
   name: sanwuya-lab3-5-prod-service
 spec:
   type: LoadBalancer 
-  loadBalancerIP: 10.48.10.116                                     # <-----change this!!!!
+  loadBalancerIP: 10.48.229.35                                 # <-----change this!!!!
   ports:
   - protocol: TCP
     port: 80
