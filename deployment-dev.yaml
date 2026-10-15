@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: dev-deployment
+  name: sanwuya-lab3-5-dev-deployment
 spec:
   replicas: 1  # Number of NGINX pods to run
   selector:
