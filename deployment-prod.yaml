@@ -47,4 +47,4 @@ spec:
     port: 80
     targetPort: 80
   selector:
-    app: nginx 
+    app: sanwuya-lab3-5-prod
