@@ -39,6 +39,16 @@ pipeline {
             }
         }
 
+        stage('Verify Website Files') {
+            steps {
+                sh '''
+                    docker run --rm --entrypoint ls \
+                      ${DOCKER_IMAGE}:${IMAGE_TAG} \
+                      -l /usr/share/nginx/html/lab3-5/
+                '''
+            }
+        }
+
         stage('Push Docker Image') {
             steps {
                 script {
@@ -56,26 +66,19 @@ pipeline {
 
         stage('Deploy to Dev Environment') {
             steps {
-                script {
-                    sh """
-                        sed -i 's|${DOCKER_IMAGE}:latest|${DOCKER_IMAGE}:${IMAGE_TAG}|' deployment-dev.yaml
-                        kubectl apply -f deployment-dev.yaml
-                    """
-                }
+                sh """
+                    sed -i 's|${DOCKER_IMAGE}:latest|${DOCKER_IMAGE}:${IMAGE_TAG}|' deployment-dev.yaml
+                    kubectl apply -f deployment-dev.yaml
+                """
             }
         }
 
         stage('Deploy to Prod Environment') {
-            when {
-                expression { false }
-            }
             steps {
-                script {
-                    sh """
-                        sed -i 's|${DOCKER_IMAGE}:latest|${DOCKER_IMAGE}:${IMAGE_TAG}|' deployment-prod.yaml
-                        kubectl apply -f deployment-prod.yaml
-                    """
-                }
+                sh """
+                    sed -i 's|${DOCKER_IMAGE}:latest|${DOCKER_IMAGE}:${IMAGE_TAG}|' deployment-prod.yaml
+                    kubectl apply -f deployment-prod.yaml
+                """
             }
         }
 
@@ -88,15 +91,17 @@ pipeline {
 
     post {
         success {
-            slackSend color: "good",
+            slackSend color: 'good',
                 message: "Build Completed: ${env.JOB_NAME} ${env.BUILD_NUMBER}"
         }
+
         unstable {
-            slackSend color: "warning",
+            slackSend color: 'warning',
                 message: "Build Unstable: ${env.JOB_NAME} ${env.BUILD_NUMBER}"
         }
+
         failure {
-            slackSend color: "danger",
+            slackSend color: 'danger',
                 message: "Build Failed: ${env.JOB_NAME} ${env.BUILD_NUMBER}"
         }
     }
