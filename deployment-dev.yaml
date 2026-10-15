@@ -41,7 +41,7 @@ metadata:
   name: dev-service
 spec:
   selector:
-    app: nginx
+    sanwuya-lab3-5dev
   ports:
   - protocol: TCP
     port: 80
