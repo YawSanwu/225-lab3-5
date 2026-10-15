@@ -40,12 +40,14 @@ pipeline {
         }
 
         stage('Verify Website Files') {
-            steps {
-                sh '''
-                    docker run --rm --entrypoint ls \
-                      ${DOCKER_IMAGE}:${IMAGE_TAG} \
-                      -l /usr/share/nginx/html/lab3-5/
-                '''
+    steps {
+        sh '''
+            docker run --rm --entrypoint sh \
+              ${DOCKER_IMAGE}:${IMAGE_TAG} \
+              -c 'ls -la /usr/share/nginx/html/lab3-5/ && nginx -T 2>&1 | grep -A 20 "server {"'
+        '''
+    }
+}
             }
         }
 
