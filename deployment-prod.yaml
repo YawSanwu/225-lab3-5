@@ -1,9 +1,10 @@
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: sanwuya-lab3-5-prod-deployment
 spec:
-  replicas: 1  # Number of NGINX pods to run
+  replicas: 1
   selector:
     matchLabels:
       app: sanwuya-lab3-5-prod
@@ -13,38 +14,37 @@ spec:
         app: sanwuya-lab3-5-prod
     spec:
       containers:
-      - name: nginx
-        image: cithit/sanwuya:latest                             #<----change this!
-        ports:
-        - containerPort: 80  # Expose NGINX on port 80      
+        - name: nginx
+          image: cithit/sanwuya:latest
+          ports:
+            - containerPort: 80
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: sanwuya-lab3-5-prod-ingress
 spec:
-  rules: 
-  - host: 
-    http:
-      paths:
-      - path: /
-        pathType: ImplementationSpecific
-        backend: 
-          service:
-            name: sanwuya-lab3-5-prod-service
-            port:
-              number: 80
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: sanwuya-lab3-5-prod-service
+                port:
+                  number: 80
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: sanwuya-lab3-5-prod-service
 spec:
-  type: LoadBalancer 
-  loadBalancerIP: 10.48.229.35                                 # <-----change this!!!!
-  ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 80
+  type: LoadBalancer
+  loadBalancerIP: 10.48.229.35
   selector:
     app: sanwuya-lab3-5-prod
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
