@@ -38,7 +38,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: sanwuya-lab3-5-prod-ingress
+  name: sanwuya-lab3-5-prod-service
 spec:
   type: LoadBalancer 
   loadBalancerIP: 10.48.10.116                                     # <-----change this!!!!
