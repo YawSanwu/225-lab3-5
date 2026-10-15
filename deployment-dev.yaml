@@ -6,11 +6,11 @@ spec:
   replicas: 1  # Number of NGINX pods to run
   selector:
     matchLabels:
-      app: nginx
+      app: sanwuya-lab3-5-dev
   template:
     metadata:
       labels:
-        app: nginx
+        app: sanwuya-lab3-5-dev
     spec:
       containers:
       - name: nginx
